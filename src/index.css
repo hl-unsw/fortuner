@@ -1,0 +1,46 @@
+@font-face {
+  font-family: 'UAESymbol';
+  src: url('/uae-symbol.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* colorblind-friendly light palette (Wong 2011) */
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --surface2: #f0f1f4;
+  --border: #d5d7de;
+  --text: #1a1a1a;
+  --text2: #5c5e6a;
+  --accent: #0072b2;   /* blue – safe for all types */
+  --accent2: #005a8c;
+  --green: #009e73;     /* teal-green – deuteranopia safe */
+  --orange: #e69f00;    /* amber – tritanopia safe */
+  --red: #cc79a7;       /* pink-mauve – protanopia safe */
+
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+}
+
+body {
+  min-height: 100vh;
+}
+
+/* monospace for all numeric values */
+.num {
+  font-family: 'SF Mono', 'Cascadia Code', 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
