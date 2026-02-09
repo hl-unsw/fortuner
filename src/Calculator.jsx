@@ -1,8 +1,8 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { VEHICLE_PRICE, calcHirePurchase, flatToReducingRate } from './calc';
 import './Calculator.css';
 
-const AED_TO_CNY = 1.89;
+const FALLBACK_RATE = 1.89;
 
 function fmtNum(n) {
   return n.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -14,6 +14,25 @@ export default function Calculator() {
   const [rate, setRate] = useState(3.0);
   const [years, setYears] = useState(5);
   const [cny, setCny] = useState(false);
+  const [exchangeRate, setExchangeRate] = useState(FALLBACK_RATE);
+  const [rateDate, setRateDate] = useState('2026-02-08');
+  const [rateSource, setRateSource] = useState('fallback');
+
+  useEffect(() => {
+    fetch('/api/rate')
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then(data => {
+        setExchangeRate(data.rate);
+        setRateDate(data.timestamp.slice(0, 10));
+        setRateSource('live');
+      })
+      .catch(err => {
+        console.warn('Failed to fetch live exchange rate, using fallback:', err);
+      });
+  }, []);
 
   const result = useMemo(() => {
     const p = price > 0 ? price : 0;
@@ -22,7 +41,7 @@ export default function Calculator() {
     return { ...r, reducingRate };
   }, [price, downPct, rate, years]);
 
-  const amount = (aedValue) => fmtNum(cny ? aedValue * AED_TO_CNY : aedValue);
+  const amount = (aedValue) => fmtNum(cny ? aedValue * exchangeRate : aedValue);
   const c = (aedValue) => cny
     ? <span className="num">&yen; {amount(aedValue)}</span>
     : <span className="num"><span className="dirham-sym">{'\u00ea'}</span> {amount(aedValue)}</span>;
@@ -47,7 +66,7 @@ export default function Calculator() {
             onChange={e => setPrice(Number(e.target.value))}
           />
         </div>
-        {cny && <p className="rate-hint">汇率：1 AED = {AED_TO_CNY} CNY（2026-02-08）</p>}
+        {cny && <p className="rate-hint">汇率：1 AED = {exchangeRate} CNY（{rateDate}）{rateSource === 'fallback' && ' [离线]'}</p>}
       </header>
 
       <div className="layout">
