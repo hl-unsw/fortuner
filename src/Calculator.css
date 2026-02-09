@@ -16,21 +16,27 @@
   position: absolute;
   top: 0;
   right: 0;
-  background: var(--surface2);
+  padding: 0;
+  width: 44px;
+  height: 30px;
   border: 1px solid var(--border);
-  color: var(--accent);
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 0.4rem 0.9rem;
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
-  font-family: inherit;
+  overflow: hidden;
+  background: transparent;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .currency-toggle:hover {
-  background: var(--border);
   border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.flag-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .price-input-row {

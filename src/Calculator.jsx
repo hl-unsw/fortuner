@@ -2,8 +2,6 @@ import { useState, useMemo, useEffect } from 'react';
 import { VEHICLE_PRICE, calcHirePurchase, flatToReducingRate } from './calc';
 import './Calculator.css';
 
-const FALLBACK_RATE = 1.89;
-
 function fmtNum(n) {
   return n.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
@@ -14,24 +12,28 @@ export default function Calculator() {
   const [rate, setRate] = useState(3.0);
   const [years, setYears] = useState(5);
   const [cny, setCny] = useState(false);
-  const [exchangeRate, setExchangeRate] = useState(FALLBACK_RATE);
-  const [rateDate, setRateDate] = useState('2026-02-08');
-  const [rateSource, setRateSource] = useState('fallback');
+  const [exchangeRate, setExchangeRate] = useState(null);
+  const [rateDate, setRateDate] = useState(null);
+  const [rateError, setRateError] = useState(null);
 
   useEffect(() => {
-    fetch('/api/rate')
+    const controller = new AbortController();
+    fetch('/api/rate', { signal: controller.signal })
       .then(res => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
       })
       .then(data => {
         setExchangeRate(data.rate);
-        setRateDate(data.timestamp.slice(0, 10));
-        setRateSource('live');
+        const d = new Date(data.timestamp);
+        setRateDate(d.toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }));
       })
       .catch(err => {
-        console.warn('Failed to fetch live exchange rate, using fallback:', err);
+        if (err.name === 'AbortError') return;
+        setRateError('汇率获取失败，无法显示人民币金额');
+        console.error('Failed to fetch exchange rate:', err);
       });
+    return () => controller.abort();
   }, []);
 
   const result = useMemo(() => {
@@ -50,23 +52,32 @@ export default function Calculator() {
   return (
     <div className="app">
       <header className="header">
-        <button className="currency-toggle" onClick={() => setCny(!cny)}>
-          {cny ? <>&#x1F1E8;&#x1F1F3; &yen;</> : <>&#x1F1E6;&#x1F1EA; <span className="dirham-sym">{'\u00ea'}</span></>}
+        <button className="currency-toggle" onClick={() => {
+          if (!cny && !exchangeRate) return;
+          setCny(!cny);
+        }} title={!cny && !exchangeRate ? '汇率获取失败，无法切换' : undefined}>
+          <img src={cny ? 'https://flagcdn.com/cn.svg' : 'https://flagcdn.com/ae.svg'} alt={cny ? '中国' : 'UAE'} className="flag-icon" />
         </button>
         <h1>固定利率分期计算器</h1>
         <div className="price-input-row">
           <span className="price-label">总价：</span>
-          <span className="dirham-sym price-sym">{'\u00ea'}</span>
+          {cny
+            ? <span className="price-sym">&yen;</span>
+            : <span className="dirham-sym price-sym">{'\u00ea'}</span>}
           <input
             className="price-input"
             type="number"
             min="0"
-            step="100"
-            value={price}
-            onChange={e => setPrice(Number(e.target.value))}
+            step={cny ? 1 : 100}
+            value={Math.round(cny ? price * exchangeRate : price)}
+            onChange={e => {
+              const v = Number(e.target.value);
+              setPrice(cny ? v / exchangeRate : v);
+            }}
           />
         </div>
-        {cny && <p className="rate-hint">汇率：1 AED = {exchangeRate} CNY（{rateDate}）{rateSource === 'fallback' && ' [离线]'}</p>}
+        {cny && <p className="rate-hint">汇率：1 迪拉姆 = {exchangeRate} 人民币（{rateDate}）</p>}
+        {!cny && rateError && <p className="rate-hint" style={{ color: '#e74c3c' }}>{rateError}</p>}
       </header>
 
       <div className="layout">
