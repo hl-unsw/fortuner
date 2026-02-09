@@ -2,6 +2,7 @@
   max-width: 960px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
+  overflow-x: hidden;
 }
 
 /* Header */
@@ -107,6 +108,18 @@
 @media (max-width: 700px) {
   .layout {
     grid-template-columns: 1fr;
+  }
+
+  .result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header h1 {
+    font-size: 1.4rem;
+  }
+
+  .result-card.highlight .result-value {
+    font-size: 1.3rem;
   }
 }
 
@@ -223,6 +236,7 @@ input[type="range"]::-moz-range-thumb {
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--text);
+  word-break: break-all;
 }
 
 .result-card.highlight {
