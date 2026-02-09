@@ -32,7 +32,7 @@ export default function Calculator() {
     <div className="app">
       <header className="header">
         <button className="currency-toggle" onClick={() => setCny(!cny)}>
-          {cny ? '\u00a5' : <span className="dirham-sym">{'\u00ea'}</span>}
+          {cny ? <>&#x1F1E8;&#x1F1F3; &yen;</> : <>&#x1F1E6;&#x1F1EA; <span className="dirham-sym">{'\u00ea'}</span></>}
         </button>
         <h1>固定利率分期计算器</h1>
         <div className="price-input-row">
