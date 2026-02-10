@@ -13,6 +13,13 @@ export default function Home() {
             <p>输入总价、首付比例、利率和期限，计算月供及还款明细</p>
           </div>
         </Link>
+        <Link to="/specs" className="tool-card">
+          <span className="tool-icon">&#x1F697;</span>
+          <div>
+            <h2>配置信息</h2>
+            <p>2026款 丰田 FORTUNER 4.0L GXR 详细配置参数</p>
+          </div>
+        </Link>
       </nav>
     </div>
   );
