@@ -20,6 +20,13 @@ export default function Home() {
             <p>2026款 丰田 FORTUNER 4.0L GXR 详细配置参数</p>
           </div>
         </Link>
+        <Link to="/commute" className="tool-card">
+          <span className="tool-icon">&#x26FD;</span>
+          <div>
+            <h2>通勤成本评估</h2>
+            <p>阿布扎比夏季通勤燃油与路桥费测算报告</p>
+          </div>
+        </Link>
       </nav>
     </div>
   );
