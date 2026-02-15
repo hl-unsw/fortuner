@@ -2,6 +2,19 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Guide.css';
 
+function ScriptBox({ children }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className={`eng-script-box${open ? ' open' : ''}`}>
+      <button className="eng-script-toggle" onClick={() => setOpen(!open)}>
+        <span className="eng-script-arrow">{open ? '▾' : '▸'}</span>
+        English Scripts
+      </button>
+      {open && <div className="eng-script-body">{children}</div>}
+    </div>
+  );
+}
+
 export default function Guide() {
   const [showNote, setShowNote] = useState(false);
 
@@ -71,6 +84,15 @@ export default function Guide() {
         </div>
 
         <p className="guide-note"><strong>底线：</strong>如果现车要等超过 1 个月，需要重新评估。如果有在途车辆（In-transit），要求查看系统里的预计到港时间（ETA）。</p>
+
+        <ScriptBox>
+          <p className="eng-line"><em>Walk in, greet briefly, then cut straight to it:</em></p>
+          <p className="eng-line quote">"I'm here for the 2026 Fortuner 4.0L GXR — the V6, not the 2.7. Do you have one in stock today?"</p>
+          <p className="eng-line"><em>If they push the 2.7L or VXR:</em></p>
+          <p className="eng-line quote">"Appreciate the suggestion, but I've done my homework. The 4.0 GXR is the only spec I'm considering. Let's not waste each other's time on other trims."</p>
+          <p className="eng-line"><em>If no stock:</em></p>
+          <p className="eng-line quote">"Got it. Can you pull up your system and show me the ETA for the next 4.0 GXR shipment? I need a firm date, not an estimate."</p>
+        </ScriptBox>
       </section>
 
       {/* Step 2 */}
@@ -95,6 +117,19 @@ export default function Guide() {
           <span className="script-label">隐藏费用</span>
           <p className="script-cn">问清楚除了车价，还有没有 Processing Fee (手续费) 或 Admin Fee？</p>
         </div>
+
+        <ScriptBox>
+          <p className="eng-line"><em>Open with the Ramadan angle:</em></p>
+          <p className="eng-line quote">"Ramadan is days away. I know you already have the early-bird campaign loaded in the system. Walk me through what's on the table right now — rate, freebies, everything."</p>
+          <p className="eng-line"><em>Pin down the rate:</em></p>
+          <p className="eng-line quote">"What's the current campaign rate on a 4-year term? Is that flat or reducing? Give me the exact number."</p>
+          <p className="eng-line"><em>Push for insurance:</em></p>
+          <p className="eng-line quote">"Is first-year comprehensive insurance included, or do I pay out of pocket?"</p>
+          <p className="eng-line"><em>Push for service contract:</em></p>
+          <p className="eng-line quote">"The standard service package is 2 years / 40k km. I need you to bump that to at least 3 years / 60k. That's a deal-breaker for me."</p>
+          <p className="eng-line"><em>Flush out hidden fees:</em></p>
+          <p className="eng-line quote">"Besides the sticker price, is there any processing fee, admin fee, or dealer charge? I want the full out-the-door number with zero surprises."</p>
+        </ScriptBox>
       </section>
 
       {/* Step 3 */}
@@ -122,6 +157,19 @@ export default function Guide() {
           <p className="script-en" style={{ marginTop: '0.5rem' }}>"I will not sign any finance application or authorize an AECB check until Feb 26th."</p>
           <p className="script-cn">在2月26日之前，我不会签任何金融申请，也不授权查征信。</p>
         </div>
+
+        <ScriptBox>
+          <p className="eng-line"><em>Request the F&I manager:</em></p>
+          <p className="eng-line quote">"I'd like to speak with your Finance and Insurance manager directly. I have specific questions about the loan structure."</p>
+          <p className="eng-line"><em>Present your profile:</em></p>
+          <p className="eng-line quote">"Here's my situation: I'm in IT, salaried at 30k a month, based at Sky Tower on Reem Island. I'm putting 20% down and looking at a 4-year term."</p>
+          <p className="eng-line"><em>Disclose probation strategically:</em></p>
+          <p className="eng-line quote">"Full transparency — I'm still in probation. I have two salary credits so far, and the third one lands on February 25th. I'd like to understand how your financing partners handle that."</p>
+          <p className="eng-line"><em>If they push to submit an application today:</em></p>
+          <p className="eng-line quote">"Let me be clear: I will not authorize any AECB inquiry or sign any finance application before February 26th. No exceptions. A premature hard pull hurts my credit score for nothing — I'm sure you understand."</p>
+          <p className="eng-line"><em>Gauge their channel:</em></p>
+          <p className="eng-line quote">"Which bank or in-house channel would you route my application through? Do you have a lender that's flexible on probation-period applicants with strong salary?"</p>
+        </ScriptBox>
       </section>
 
       {/* Step 4 */}
@@ -146,6 +194,17 @@ export default function Guide() {
           <p className="script-cn">如果因为客户处于试用期或银行流水不足导致4年期贷款被拒，订金全额退还。</p>
           <p className="guide-note" style={{ marginTop: '0.5rem' }}>有了这句话，你进可攻（稳拿车和优惠），退可守（贷款下不来全额退款）。</p>
         </div>
+
+        <ScriptBox>
+          <p className="eng-line"><em>Lock in the booking:</em></p>
+          <p className="eng-line quote">"I'm ready to place a booking deposit by card to hold this unit and today's Ramadan pricing. Before I tap, I need two things from you."</p>
+          <p className="eng-line"><em>Demand the quotation:</em></p>
+          <p className="eng-line quote">"Print me an official quotation showing the vehicle price at 154,900, my down payment amount, the agreed interest rate, and every freebie we just discussed — insurance, service package, all of it. I want it itemized."</p>
+          <p className="eng-line"><em>Demand the refund clause:</em></p>
+          <p className="eng-line quote">"I also need a written statement — on the receipt or the quotation, signed and stamped — that the booking deposit is fully refundable if the 4-year finance is declined due to my probation status or insufficient bank statements. No grey area."</p>
+          <p className="eng-line"><em>If they resist the refund clause:</em></p>
+          <p className="eng-line quote">"I'm not asking for anything unusual. I'm a serious buyer putting real money down. But I won't take on the risk of a non-refundable deposit when the approval depends on a timeline neither of us controls. This is standard consumer protection — put it in writing or I walk."</p>
+        </ScriptBox>
       </section>
 
       {/* Step 5 */}
@@ -165,6 +224,17 @@ export default function Guide() {
           <li>带 3 次工资的 Bank Statement（必须盖章或银行App官方导出）</li>
           <li>抬头开给对应银行的 Salary Certificate</li>
         </ul>
+
+        <ScriptBox>
+          <p className="eng-line"><em>Before you leave:</em></p>
+          <p className="eng-line quote">"One last thing — give me the exact checklist of documents you'll need from me on February 26th. I want to come fully prepared so we can close this in one visit."</p>
+          <p className="eng-line"><em>Clarify the salary certificate:</em></p>
+          <p className="eng-line quote">"For the salary certificate — does it need to be addressed to a specific bank? Which lender are you planning to submit to?"</p>
+          <p className="eng-line"><em>Clarify the bank statement:</em></p>
+          <p className="eng-line quote">"For the bank statement — do you need an original stamped copy from the branch, or will an official export from the banking app work?"</p>
+          <p className="eng-line"><em>Wrap up and leave sharp:</em></p>
+          <p className="eng-line quote">"Perfect. I'll have everything ready by the 26th. You've got my number — if anything changes on your end with the Ramadan campaign, let me know immediately."</p>
+        </ScriptBox>
       </section>
 
       {/* Summary */}
