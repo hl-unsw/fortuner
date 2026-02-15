@@ -3,6 +3,7 @@ import Home from './Home';
 import Calculator from './Calculator';
 import Specs from './Specs';
 import Commute from './Commute';
+import Guide from './Guide';
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
         <Route path="/calculator" element={<Calculator />} />
         <Route path="/specs" element={<Specs />} />
         <Route path="/commute" element={<Commute />} />
+        <Route path="/guide" element={<Guide />} />
       </Routes>
     </BrowserRouter>
   );

@@ -27,6 +27,13 @@ export default function Home() {
             <p>阿布扎比夏季通勤燃油与路桥费测算报告</p>
           </div>
         </Link>
+        <Link to="/guide" className="tool-card">
+          <span className="tool-icon">&#x1F3AF;</span>
+          <div>
+            <h2>2/15 展厅行动指南</h2>
+            <p>机场路丰田展厅潜伏与锁定指南：谈判话术与避坑清单</p>
+          </div>
+        </Link>
       </nav>
     </div>
   );
